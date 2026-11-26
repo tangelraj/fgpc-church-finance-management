@@ -1,0 +1,771 @@
+.families-page {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+/* PAGE HEADING */
+
+.family-page-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.family-page-heading h1 {
+  font-size: 29px;
+  color: #43204f;
+}
+
+.family-page-heading p {
+  font-size: 14px;
+  color: #918398;
+  margin-top: 7px;
+}
+
+/* BUTTONS */
+
+.family-primary-btn,
+.family-secondary-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 19px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.family-primary-btn {
+  background: #54265f;
+  color: #ffffff;
+  border: 1px solid #54265f;
+}
+
+.family-primary-btn:hover {
+  background: #863b86;
+}
+
+.family-secondary-btn {
+  background: #ffffff;
+  color: #54265f;
+  border: 1px solid #e1d7e5;
+}
+
+.family-secondary-btn:hover {
+  background: #f4edf6;
+}
+
+.family-primary-btn:disabled,
+.family-secondary-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* SUMMARY CARDS */
+
+.family-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.family-stat-card {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 23px;
+  background: #ffffff;
+  border: 1px solid #ece5ef;
+  border-radius: 13px;
+  min-width: 0;
+}
+
+.family-stat-icon {
+  width: 55px;
+  height: 55px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+
+.family-stat-icon.purple {
+  background: #f1e6f4;
+  color: #863b86;
+}
+
+.family-stat-icon.green {
+  background: #e9f7ef;
+  color: #198754;
+}
+
+.family-stat-icon.gold {
+  background: #fbf3e4;
+  color: #b68a39;
+}
+
+.family-stat-card p {
+  font-size: 13px;
+  color: #918398;
+  margin-bottom: 8px;
+}
+
+.family-stat-card h2 {
+  font-size: 26px;
+  color: #43204f;
+  overflow-wrap: anywhere;
+}
+
+/* SEARCH TOOLBAR */
+
+.family-toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 13px;
+  padding: 18px;
+  border-radius: 12px;
+  background: #ffffff;
+  border: 1px solid #ece5ef;
+}
+
+.family-search {
+  flex: 1;
+  min-width: 200px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 13px;
+  height: 44px;
+  color: #918398;
+  border: 1px solid #e1d7e5;
+  border-radius: 8px;
+}
+
+.family-search input {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+}
+
+.family-search:focus-within {
+  border-color: #863b86;
+}
+
+.family-toolbar select {
+  height: 44px;
+  padding: 0 13px;
+  border: 1px solid #e1d7e5;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #54265f;
+  outline: none;
+}
+
+/* FAMILY CARDS */
+
+.family-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.family-card {
+  background: #ffffff;
+  border: 1px solid #ece5ef;
+  border-radius: 15px;
+  padding: 23px;
+  min-width: 0;
+  transition: 0.25s ease;
+}
+
+.family-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(67, 32, 79, 0.08);
+}
+
+.family-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.family-avatar {
+  width: 75px;
+  height: 75px;
+  display: grid;
+  place-items: center;
+  background: #f1e6f4;
+  color: #863b86;
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+.family-avatar img,
+.family-profile-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.family-status {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.family-status.active {
+  background: #e9f7ef;
+  color: #198754;
+}
+
+.family-status.inactive {
+  background: #f2eef3;
+  color: #807187;
+}
+
+.family-card-name {
+  margin: 20px 0;
+}
+
+.family-card-name span {
+  font-size: 12px;
+  font-weight: 600;
+  color: #b68a39;
+  letter-spacing: 0.7px;
+}
+
+.family-card-name h3 {
+  font-size: 20px;
+  color: #43204f;
+  margin-top: 7px;
+  overflow-wrap: anywhere;
+}
+
+.family-card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.family-card-info p {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  font-size: 13px;
+  color: #807187;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.family-card-info svg {
+  flex-shrink: 0;
+  color: #863b86;
+  margin-top: 2px;
+}
+
+.family-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 23px;
+  padding-top: 18px;
+  border-top: 1px solid #eee6f0;
+}
+
+.family-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 9px 13px;
+  border: none;
+  border-radius: 7px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.family-action.view {
+  color: #54265f;
+  background: #f1e6f4;
+}
+
+.family-action.edit {
+  color: #9a722d;
+  background: #fbf3e4;
+}
+
+.family-action.whatsapp {
+  color: #198754;
+  background: #e9f7ef;
+  margin-left: auto;
+}
+
+/* MODAL */
+
+.family-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(34, 17, 40, 0.55);
+  backdrop-filter: blur(3px);
+  padding: 20px;
+}
+
+.family-modal {
+  width: 100%;
+  max-width: 760px;
+  max-height: 90dvh;
+  overflow-y: auto;
+  background: #ffffff;
+  border-radius: 17px;
+  box-shadow: 0 20px 70px rgba(0, 0, 0, 0.2);
+}
+
+.family-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 23px 28px;
+  border-bottom: 1px solid #ece5ef;
+}
+
+.family-modal-header h2 {
+  color: #43204f;
+  font-size: 23px;
+}
+
+.family-modal-header p {
+  font-size: 13px;
+  color: #918398;
+  margin-top: 6px;
+}
+
+.modal-close {
+  border: none;
+  background: #f4edf6;
+  color: #54265f;
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+}
+
+.family-modal-body {
+  padding: 28px;
+}
+
+.family-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.family-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.family-field label {
+  color: #5d4866;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.family-field input,
+.family-field select,
+.family-field textarea {
+  width: 100%;
+  border: 1px solid #e1d7e5;
+  border-radius: 8px;
+  padding: 12px;
+  background: #ffffff;
+  color: #43204f;
+  outline: none;
+  font-size: 14px;
+}
+
+.family-field input:focus,
+.family-field select:focus,
+.family-field textarea:focus {
+  border-color: #863b86;
+  box-shadow: 0 0 0 3px rgba(134, 59, 134, 0.07);
+}
+
+.family-field textarea {
+  resize: vertical;
+}
+
+.family-field.full-width {
+  grid-column: 1 / -1;
+}
+
+.photo-upload {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #863b86;
+}
+
+.photo-upload input {
+  min-width: 0;
+  font-size: 12px;
+}
+
+.family-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 14px;
+  color: #54265f;
+}
+
+.family-checkbox input {
+  width: 17px;
+  height: 17px;
+  accent-color: #863b86;
+}
+
+.family-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 20px 28px;
+  border-top: 1px solid #ece5ef;
+}
+
+/* FAMILY PROFILE */
+
+.family-back-link {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #863b86;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.family-profile {
+  padding: 30px;
+  border-radius: 16px;
+  background: linear-gradient(
+    120deg,
+    #43204f,
+    #754583,
+    #863b86
+  );
+  color: #ffffff;
+}
+
+.family-profile-main {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.family-profile-photo {
+  width: 110px;
+  height: 110px;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.13);
+  color: #e5bf75;
+  border-radius: 20px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.family-profile-title {
+  flex: 1;
+  min-width: 0;
+}
+
+.family-profile-title span {
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: #e5bf75;
+}
+
+.family-profile-title h1 {
+  font-size: 30px;
+  margin: 10px 0;
+  overflow-wrap: anywhere;
+}
+
+.family-profile-title p {
+  color: #e4d9e7;
+  font-size: 13px;
+}
+
+.family-profile-edit {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  border-radius: 8px;
+  padding: 11px 15px;
+}
+
+.family-profile-info {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 25px;
+  padding-top: 25px;
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.family-profile-info p {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.family-profile-info svg {
+  flex-shrink: 0;
+  color: #e5bf75;
+}
+
+/* MEMBER AND OFFERING TABLES */
+
+.family-panel {
+  padding: 25px;
+  border: 1px solid #ece5ef;
+  border-radius: 14px;
+  background: #ffffff;
+  min-width: 0;
+}
+
+.family-panel-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 24px;
+}
+
+.family-panel-heading h2 {
+  font-size: 21px;
+  color: #43204f;
+}
+
+.family-panel-heading p {
+  color: #918398;
+  font-size: 13px;
+  margin-top: 6px;
+}
+
+.family-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.family-table {
+  width: 100%;
+  min-width: 650px;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.family-table th {
+  background: #f4edf6;
+  color: #6f5078;
+  font-size: 12px;
+  padding: 15px;
+  white-space: nowrap;
+}
+
+.family-table td {
+  padding: 16px 15px;
+  border-bottom: 1px solid #f0ebf2;
+  color: #5b4a62;
+  font-size: 13px;
+}
+
+.family-table tbody tr:hover {
+  background: #fcf9fd;
+}
+
+.family-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.member-name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+}
+
+.member-name svg {
+  color: #863b86;
+  flex-shrink: 0;
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+.family-receipt-number {
+  color: #863b86 !important;
+  font-weight: 600;
+}
+
+.family-income {
+  color: #198754 !important;
+  font-weight: 700;
+}
+
+.family-empty-table {
+  padding: 35px !important;
+  text-align: center;
+  color: #918398 !important;
+}
+
+/* LOADING AND ERRORS */
+
+.family-empty {
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  background: #ffffff;
+  border: 1px solid #ece5ef;
+  border-radius: 13px;
+  color: #863b86;
+  text-align: center;
+  padding: 25px;
+}
+
+.family-empty p {
+  color: #918398;
+  font-size: 14px;
+}
+
+.family-error {
+  padding: 14px;
+  background: #fff1f1;
+  color: #b42323;
+  border: 1px solid #f3caca;
+  border-radius: 8px;
+  font-size: 13px;
+  margin-bottom: 15px;
+  overflow-wrap: anywhere;
+}
+
+.family-spinner {
+  animation: family-spin 1s linear infinite;
+}
+
+@keyframes family-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 1250px) {
+
+  .family-card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .family-stat-card {
+    padding: 17px;
+    gap: 12px;
+  }
+
+  .family-stat-card h2 {
+    font-size: 22px;
+  }
+
+}
+
+@media (max-width: 750px) {
+
+  .family-stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .family-profile-info {
+    grid-template-columns: 1fr;
+  }
+
+  .family-page-heading h1 {
+    font-size: 24px;
+  }
+
+}
+
+@media (max-width: 550px) {
+
+  .family-card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .family-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .family-modal-overlay {
+    padding: 10px;
+  }
+
+  .family-modal-body,
+  .family-modal-header,
+  .family-modal-footer {
+    padding: 18px;
+  }
+
+  .family-profile {
+    padding: 20px;
+  }
+
+  .family-profile-title h1 {
+    font-size: 23px;
+  }
+
+  .family-profile-photo {
+    width: 75px;
+    height: 75px;
+  }
+
+  .family-panel {
+    padding: 17px;
+  }
+
+  .family-toolbar select {
+    flex: 1;
+  }
+
+}

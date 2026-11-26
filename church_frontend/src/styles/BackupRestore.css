@@ -1,0 +1,152 @@
+.backup-page {
+  width: 100%;
+}
+
+.backup-heading {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 25px;
+}
+
+.backup-heading h2 {
+  color: #54265f;
+  font-size: 21px;
+  margin-bottom: 5px;
+}
+
+.backup-heading p {
+  color: #887b90;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.backup-icon {
+  width: 65px;
+  height: 65px;
+  border-radius: 14px;
+  background: #f0e7f4;
+  color: #863b86;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.backup-items {
+  padding: 22px;
+  background: #faf7fc;
+  border: 1px solid #e9e0ed;
+  border-radius: 10px;
+  margin-bottom: 24px;
+}
+
+.backup-items h3 {
+  font-size: 16px;
+  color: #54265f;
+  margin-bottom: 20px;
+}
+
+.backup-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #62546b;
+  font-size: 14px;
+  padding: 9px 0;
+}
+
+.backup-item svg {
+  color: #198754;
+  flex-shrink: 0;
+}
+
+.backup-format {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 20px;
+  border: 1px solid #e9e0ed;
+  border-radius: 10px;
+  color: #863b86;
+  margin-bottom: 24px;
+}
+
+.backup-format strong {
+  color: #54265f;
+  font-size: 15px;
+}
+
+.backup-format p {
+  color: #887b90;
+  font-size: 13px;
+  margin-top: 5px;
+}
+
+.backup-download-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: #54265f;
+  color: #ffffff;
+  padding: 14px 24px;
+  border: none;
+  border-radius: 9px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.backup-download-button:hover {
+  background: #71357e;
+}
+
+.backup-download-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.backup-warning {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  background: #fff8e7;
+  border: 1px solid #eed9a5;
+  border-radius: 9px;
+  padding: 20px;
+  color: #987126;
+}
+
+.backup-warning svg {
+  flex-shrink: 0;
+}
+
+.backup-warning p {
+  margin-top: 8px;
+  line-height: 1.7;
+  font-size: 14px;
+}
+
+@media (max-width: 700px) {
+
+  .backup-heading h2 {
+    font-size: 18px;
+  }
+
+  .backup-icon {
+    width: 48px;
+    height: 48px;
+  }
+
+  .backup-items {
+    padding: 15px;
+  }
+
+  .backup-download-button {
+    width: 100%;
+    font-size: 13px;
+  }
+
+}

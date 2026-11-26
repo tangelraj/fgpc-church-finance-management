@@ -1,0 +1,441 @@
+.login-page {
+
+  min-height: 100vh;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 30px 20px;
+
+  background:
+    radial-gradient(
+      circle at top left,
+      #e9d6ef,
+      transparent 45%
+    ),
+    radial-gradient(
+      circle at bottom right,
+      #eedfc0,
+      transparent 45%
+    ),
+    #f6f1f8;
+
+}
+
+
+.login-card {
+
+  width: 100%;
+
+  max-width: 460px;
+
+  padding: 40px;
+
+  background: #ffffff;
+
+  border-radius: 24px;
+
+  border: 1px solid #eee4f1;
+
+  box-shadow:
+    0 20px 65px rgba(67, 32, 79, 0.12);
+
+}
+
+
+.login-brand {
+
+  text-align: center;
+
+}
+
+
+.login-logo {
+
+  width: 76px;
+
+  height: 76px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  margin: 0 auto 18px;
+
+  border-radius: 22px;
+
+  color: #e5bf75;
+
+  background:
+    linear-gradient(135deg, #43204f, #863b86);
+
+  box-shadow:
+    0 8px 20px rgba(67, 32, 79, 0.2);
+
+}
+
+
+.praise-text {
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  letter-spacing: 3px;
+
+  color: #b68a39;
+
+}
+
+
+.login-brand h1 {
+
+  margin: 10px 0 6px;
+
+  color: #54265f;
+
+  font-size: 27px;
+
+  font-weight: 800;
+
+}
+
+
+.login-brand p {
+
+  font-size: 13px;
+
+  color: #807187;
+
+}
+
+
+.login-divider {
+
+  height: 1px;
+
+  background: #eee6f0;
+
+  margin: 25px 0;
+
+}
+
+
+.login-heading h2 {
+
+  color: #34213d;
+
+  font-size: 25px;
+
+  margin-bottom: 8px;
+
+}
+
+
+.login-heading p {
+
+  font-size: 14px;
+
+  color: #85778c;
+
+  margin-bottom: 25px;
+
+}
+
+
+.login-form-group {
+
+  margin-bottom: 20px;
+
+}
+
+
+.login-form-group label {
+
+  display: block;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  color: #43344a;
+
+  margin-bottom: 9px;
+
+}
+
+
+.login-input {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 0 14px;
+
+  height: 52px;
+
+  border: 1px solid #ded5e3;
+
+  border-radius: 10px;
+
+  color: #927d9a;
+
+  transition: 0.2s ease;
+
+}
+
+
+.login-input:focus-within {
+
+  border-color: #863b86;
+
+  box-shadow:
+    0 0 0 3px rgba(134, 59, 134, 0.08);
+
+}
+
+
+.login-input input {
+
+  flex: 1;
+
+  width: 100%;
+
+  min-width: 0;
+
+  border: none;
+
+  outline: none;
+
+  background: transparent;
+
+  color: #33243a;
+
+  font-size: 14px;
+
+}
+
+
+.login-input input::placeholder {
+
+  color: #a79bab;
+
+}
+
+
+.password-toggle {
+
+  display: flex;
+
+  align-items: center;
+
+  border: none;
+
+  background: transparent;
+
+  color: #927d9a;
+
+  cursor: pointer;
+
+}
+
+
+.login-submit {
+
+  width: 100%;
+
+  height: 52px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 10px;
+
+  border: none;
+
+  border-radius: 10px;
+
+  color: #ffffff;
+
+  background:
+    linear-gradient(135deg, #54265f, #863b86);
+
+  font-size: 15px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: 0.25s ease;
+
+}
+
+
+.login-submit:hover {
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 8px 20px rgba(84, 38, 95, 0.22);
+
+}
+
+
+.login-submit:disabled {
+
+  opacity: 0.65;
+
+  cursor: not-allowed;
+
+  transform: none;
+
+}
+
+
+.login-security {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 7px;
+
+  margin-top: 22px;
+
+  font-size: 12px;
+
+  color: #8c7794;
+
+}
+
+
+.login-security svg {
+
+  color: #b68a39;
+
+}
+
+
+.login-verse {
+
+  text-align: center;
+
+  border-top: 1px solid #eee6f0;
+
+  margin-top: 25px;
+
+  padding-top: 22px;
+
+}
+
+
+.login-verse p {
+
+  color: #806c86;
+
+  font-size: 13px;
+
+  font-style: italic;
+
+  line-height: 1.7;
+
+}
+
+
+.login-verse span {
+
+  display: block;
+
+  color: #b68a39;
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+  margin-top: 7px;
+
+}
+
+
+.login-error {
+
+  background: #fff1f1;
+
+  border: 1px solid #f1caca;
+
+  color: #b42323;
+
+  padding: 12px;
+
+  border-radius: 8px;
+
+  font-size: 13px;
+
+  margin-bottom: 20px;
+
+}
+
+
+.login-copyright {
+
+  margin-top: 25px;
+
+  color: #8c7794;
+
+  font-size: 12px;
+
+  text-align: center;
+
+}
+
+
+.login-spinner {
+
+  animation: login-spin 1s linear infinite;
+
+}
+
+
+@keyframes login-spin {
+
+  to {
+
+    transform: rotate(360deg);
+
+  }
+
+}
+
+
+@media (max-width: 480px) {
+
+  .login-card {
+
+    padding: 25px;
+
+    border-radius: 18px;
+
+  }
+
+  .login-brand h1 {
+
+    font-size: 23px;
+
+  }
+
+}

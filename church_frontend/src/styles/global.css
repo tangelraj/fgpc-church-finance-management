@@ -1,0 +1,79 @@
+:root {
+
+  font-family:
+    "Segoe UI", Arial, sans-serif;
+
+  color: #33243a;
+
+  background: #f7f5fa;
+
+  --primary: #54265f;
+
+  --primary-light: #863b86;
+
+  --gold: #b68a39;
+
+  --background: #f7f5fa;
+
+  --white: #ffffff;
+
+  --success: #198754;
+
+  --danger: #dc3545;
+
+  --border: #e9e0ed;
+
+}
+
+
+* {
+
+  margin: 0;
+
+  padding: 0;
+
+  box-sizing: border-box;
+
+}
+
+
+body {
+
+  min-width: 320px;
+
+  min-height: 100vh;
+
+}
+
+
+button,
+input,
+select,
+textarea {
+
+  font: inherit;
+
+}
+
+
+button {
+
+  cursor: pointer;
+
+}
+
+
+a {
+
+  text-decoration: none;
+
+  color: inherit;
+
+}
+
+
+#root {
+
+  min-height: 100vh;
+
+}

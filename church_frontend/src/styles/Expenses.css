@@ -1,0 +1,300 @@
+/* ==========================================
+   EXPENSE SUMMARY CARDS
+========================================== */
+
+.expense-stats-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.expense-stats-grid .finance-stat-card {
+  padding: 22px 18px;
+  gap: 12px;
+}
+
+.expense-stats-grid .finance-stat-card h2 {
+  font-size: 23px;
+}
+
+.expense-amount {
+  color: #dc3545 !important;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+
+/* ==========================================
+   EXPENSE MODAL
+========================================== */
+
+.expense-modal {
+  max-width: 1100px;
+}
+
+
+/* ==========================================
+   EXPENSE ITEMS PANEL
+========================================== */
+
+.expense-items-panel {
+  border: 1px solid #d9bfdc;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.expense-items-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  background: #863b86;
+  color: #ffffff;
+  padding: 15px 18px;
+}
+
+.expense-items-heading h3 {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.expense-add-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: #ffffff;
+  color: #863b86;
+  border: none;
+  border-radius: 6px;
+  padding: 9px 13px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.expense-add-item:hover {
+  background: #f4edf6;
+}
+
+
+/* ==========================================
+   EXPENSE ENTRY TABLE
+========================================== */
+
+.expense-table-wrapper {
+  overflow-x: auto;
+  width: 100%;
+}
+
+.expense-entry-table {
+  width: 100%;
+  min-width: 680px;
+  border-collapse: collapse;
+}
+
+.expense-entry-table th {
+  background: #f4eaf6;
+  padding: 14px 12px;
+  color: #54265f;
+  text-align: left;
+  font-size: 12px;
+}
+
+.expense-entry-table td {
+  padding: 12px 10px;
+  border-bottom: 1px solid #ece5ef;
+  color: #54265f;
+  font-size: 13px;
+}
+
+.expense-entry-table th:first-child {
+  width: 45px;
+}
+
+.expense-entry-table th:nth-child(2) {
+  width: 28%;
+}
+
+.expense-entry-table th:nth-child(4) {
+  width: 155px;
+}
+
+.expense-entry-table th:last-child {
+  width: 65px;
+}
+
+.expense-entry-table input,
+.expense-entry-table select {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid #d9bfdc;
+  border-radius: 6px;
+  padding: 11px 9px;
+  outline: none;
+  color: #43204f;
+  background: #ffffff;
+  font-size: 13px;
+}
+
+.expense-entry-table input:focus,
+.expense-entry-table select:focus {
+  border-color: #863b86;
+}
+
+.expense-entry-table input[type="number"] {
+  text-align: right;
+}
+
+.expense-entry-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+
+/* ==========================================
+   REMOVE EXPENSE ITEM
+========================================== */
+
+.expense-remove-item {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 7px;
+  background: #fff0f1;
+  color: #dc3545;
+}
+
+.expense-remove-item:hover {
+  background: #fbdce0;
+}
+
+.expense-remove-item:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+
+/* ==========================================
+   BALANCE NOTICE
+========================================== */
+
+.expense-balance-notice {
+  padding: 15px 18px;
+  border-left: 4px solid #b68a39;
+  background: #fbf5e9;
+  color: #806126;
+  font-size: 13px;
+  line-height: 1.7;
+  border-radius: 6px;
+}
+
+
+/* ==========================================
+   EXPENSE HISTORY
+========================================== */
+
+.expense-history-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.expense-history-heading h2 {
+  margin-bottom: 0;
+}
+
+.expense-history-heading > span {
+  background: #f4edf6;
+  color: #863b86;
+  padding: 7px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.expense-history-table {
+  min-width: 1100px;
+}
+
+.expense-particulars {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 140px;
+  max-width: 250px;
+}
+
+.expense-particulars span {
+  color: #65516e;
+  font-size: 12px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+
+/* ==========================================
+   FUND LABELS
+========================================== */
+
+.expense-fund-tag {
+  display: inline-block;
+  padding: 6px 9px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.expense-fund-tag.local {
+  background: #f1e6f4;
+  color: #863b86;
+}
+
+.expense-fund-tag.denomination {
+  background: #fbf3e4;
+  color: #9a722d;
+}
+
+
+/* ==========================================
+   RESPONSIVE DESIGN
+========================================== */
+
+@media (max-width: 1250px) {
+
+  .expense-stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+}
+
+@media (max-width: 600px) {
+
+  .expense-stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .expense-stats-grid .finance-stat-card h2 {
+    font-size: 24px;
+  }
+
+  .expense-items-heading {
+    padding: 12px;
+  }
+
+  .expense-items-heading h3 {
+    font-size: 14px;
+  }
+
+  .expense-balance-notice {
+    font-size: 12px;
+  }
+
+  .expense-modal .offering-total-row h2 {
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+}
