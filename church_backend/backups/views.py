@@ -3,6 +3,7 @@ import shutil
 import tempfile
 
 from pathlib import Path
+from django.conf import settings
 
 from django.http import FileResponse
 
@@ -48,6 +49,25 @@ def download_backup(request):
             },
 
             status=status.HTTP_403_FORBIDDEN,
+
+        )
+    
+    if (
+        settings.DATABASES["default"]["ENGINE"]
+        != "django.db.backends.sqlite3"
+    ):
+
+        return Response(
+
+            {
+                "detail": (
+                    "SQLite backup downloads are not "
+                    "available for PostgreSQL databases. "
+                    "Use the configured database backup service."
+                )
+            },
+
+            status=status.HTTP_503_SERVICE_UNAVAILABLE,
 
         )
 
