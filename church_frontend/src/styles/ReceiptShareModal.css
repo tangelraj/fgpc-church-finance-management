@@ -1,0 +1,456 @@
+/* ==========================================
+   RECEIPT SHARE MODAL
+========================================== */
+
+.receipt-share-overlay {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 99999 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(34, 17, 40, 0.65);
+  backdrop-filter: blur(5px);
+  box-sizing: border-box;
+}
+
+.receipt-share-modal {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  max-height: 92vh;
+  overflow-y: auto;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  box-sizing: border-box;
+  font-family: inherit;
+  box-shadow: 0 20px 70px rgba(0, 0, 0, 0.25);
+}
+
+.receipt-share-modal * {
+  box-sizing: border-box;
+}
+
+
+/* ==========================================
+   CLOSE BUTTON
+========================================== */
+
+.receipt-share-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f2eaf5;
+  color: #54265f;
+  border: none;
+  border-radius: 9px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.receipt-share-close:hover {
+  background: #e7d8ec;
+}
+
+
+/* ==========================================
+   HEADER
+========================================== */
+
+.receipt-share-icon {
+  width: 65px;
+  height: 65px;
+  min-height: 65px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e7f7ee;
+  color: #198754;
+  border-radius: 50%;
+}
+
+.receipt-share-modal h2 {
+  margin: 0;
+  color: #43204f;
+  font-size: 25px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.receipt-share-subtitle {
+  margin: 0;
+  color: #85758d;
+  font-size: 13px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+
+/* ==========================================
+   RECEIPT DETAILS
+========================================== */
+
+.receipt-share-info {
+  width: 100%;
+  padding: 20px;
+  border: 1px solid #e9deed;
+  border-radius: 13px;
+  background: #f7f2f9;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.receipt-share-info > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  text-align: center;
+}
+
+.receipt-share-info span {
+  display: block;
+  color: #918398;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.receipt-share-info strong {
+  display: block;
+  color: #54265f;
+  font-size: 16px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.receipt-share-info .receipt-share-amount {
+  color: #198754;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+
+/* ==========================================
+   PDF DOCUMENT CARD
+========================================== */
+
+.receipt-share-file {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px;
+  background: #ffffff;
+  border: 1px solid #e1d7e5;
+  border-radius: 11px;
+}
+
+.receipt-share-file > svg:first-child {
+  color: #dc3545;
+  flex-shrink: 0;
+}
+
+.receipt-share-file > svg:last-child {
+  flex-shrink: 0;
+}
+
+.receipt-share-file > div {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.receipt-share-file strong {
+  display: block;
+  color: #43204f;
+  font-size: 14px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.receipt-share-file span {
+  display: block;
+  color: #918398;
+  font-size: 12px;
+}
+
+
+/* ==========================================
+   COMMON BUTTON STYLES
+========================================== */
+
+.receipt-share-whatsapp,
+.receipt-share-download,
+.receipt-share-cancel {
+  width: 100%;
+  min-height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 13px 18px;
+  border-radius: 9px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.receipt-share-modal button svg {
+  flex-shrink: 0;
+}
+
+
+/* ==========================================
+   WHATSAPP BUTTON
+========================================== */
+
+.receipt-share-whatsapp {
+  background: #198754;
+  color: #ffffff;
+  border: 1px solid #198754;
+}
+
+.receipt-share-whatsapp:hover:not(:disabled) {
+  background: #146c43;
+  border-color: #146c43;
+  box-shadow: 0 4px 12px rgba(25, 135, 84, 0.2);
+}
+
+
+/* ==========================================
+   DOWNLOAD BUTTON
+========================================== */
+
+.receipt-share-download {
+  background: #54265f;
+  color: #ffffff;
+  border: 1px solid #54265f;
+}
+
+.receipt-share-download:hover:not(:disabled) {
+  background: #763d80;
+  border-color: #763d80;
+}
+
+
+/* ==========================================
+   CANCEL BUTTON
+========================================== */
+
+.receipt-share-cancel {
+  background: #ffffff;
+  color: #54265f;
+  border: 1px solid #e1d7e5;
+}
+
+.receipt-share-cancel:hover:not(:disabled) {
+  background: #f4edf6;
+}
+
+.receipt-share-modal button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+
+/* ==========================================
+   DIVIDER
+========================================== */
+
+.receipt-share-divider {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 2px 0;
+  color: #918398;
+  font-size: 12px;
+  text-align: center;
+}
+
+.receipt-share-divider::before,
+.receipt-share-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #e1d7e5;
+}
+
+
+/* ==========================================
+   HELP TEXT
+========================================== */
+
+.receipt-share-help {
+  width: 100%;
+  margin: 0;
+  color: #807187;
+  font-size: 12px;
+  line-height: 1.7;
+  text-align: center;
+}
+
+
+/* ==========================================
+   LOADING
+========================================== */
+
+.receipt-share-loading {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 20px;
+  color: #763d80;
+  font-size: 13px;
+}
+
+.receipt-share-loading p {
+  margin: 0;
+}
+
+.receipt-share-spinner {
+  animation: receipt-share-spin 1s linear infinite;
+}
+
+@keyframes receipt-share-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* ==========================================
+   ERROR MESSAGE
+========================================== */
+
+.receipt-share-error {
+  width: 100%;
+  padding: 12px;
+  background: #fff1f1;
+  border: 1px solid #f3caca;
+  border-radius: 8px;
+  color: #b42323;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+
+/* ==========================================
+   SUCCESS MESSAGE
+========================================== */
+
+.receipt-share-success {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  background: #e9f7ef;
+  border: 1px solid #bce3cb;
+  border-radius: 8px;
+  color: #198754;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.receipt-share-success svg {
+  flex-shrink: 0;
+}
+
+
+/* ==========================================
+   SCROLLBAR
+========================================== */
+
+.receipt-share-modal::-webkit-scrollbar {
+  width: 5px;
+}
+
+.receipt-share-modal::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.receipt-share-modal::-webkit-scrollbar-thumb {
+  background: #c9b4d0;
+  border-radius: 10px;
+}
+
+
+/* ==========================================
+   MOBILE RESPONSIVE
+========================================== */
+
+@media (max-width: 550px) {
+
+  .receipt-share-overlay {
+    padding: 12px;
+  }
+
+  .receipt-share-modal {
+    width: 100%;
+    max-height: 92dvh;
+    padding: 24px 18px;
+    border-radius: 15px;
+    gap: 13px;
+  }
+
+  .receipt-share-modal h2 {
+    font-size: 21px;
+  }
+
+  .receipt-share-icon {
+    width: 55px;
+    height: 55px;
+    min-height: 55px;
+  }
+
+  .receipt-share-info {
+    padding: 15px;
+    gap: 12px;
+  }
+
+  .receipt-share-info .receipt-share-amount {
+    font-size: 26px;
+  }
+
+  .receipt-share-whatsapp,
+  .receipt-share-download,
+  .receipt-share-cancel {
+    font-size: 13px;
+    padding: 12px;
+  }
+
+  .receipt-share-file {
+    padding: 12px;
+  }
+
+  .receipt-share-file strong {
+    font-size: 12px;
+  }
+
+}

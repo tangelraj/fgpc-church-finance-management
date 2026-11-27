@@ -19,6 +19,7 @@ import {
 } from "../services/receiptShare";
 
 import { currency } from "../services/finance";
+import "../styles/ReceiptShareModal.css";
 
 
 export default function ReceiptShareModal({
