@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
 import {
   Plus,
@@ -241,10 +242,18 @@ export default function Offerings({
 
 
   // ========================================
-  // SHARE PDF VIA WHATSAPP
+  // SHARE PDF VIA WHATSAPP - CORRECTED
   // ========================================
 
   const handleShare = (offering) => {
+
+    if (!offering || !offering.id) {
+
+      alert("Receipt information is missing.");
+
+      return;
+
+    }
 
     if (offering.status !== "completed") {
 
@@ -256,7 +265,28 @@ export default function Offerings({
 
     }
 
+    // Close the offering success popup
+
+    setSavedOffering(null);
+
+    // Close the offering form if open
+
+    setShowForm(false);
+
+    // Open the WhatsApp PDF sharing popup
+
     setShareOffering(offering);
+
+  };
+
+
+  // ========================================
+  // CLOSE WHATSAPP SHARING POPUP
+  // ========================================
+
+  const handleCloseShare = () => {
+
+    setShareOffering(null);
 
   };
 
@@ -329,6 +359,7 @@ export default function Offerings({
         {!receiptsOnly && (
 
           <button
+            type="button"
             className="finance-primary-btn"
             onClick={() => setShowForm(true)}
             disabled={loading}
@@ -546,6 +577,7 @@ export default function Offerings({
         {/* RESET BUTTON */}
 
         <button
+          type="button"
           className="finance-secondary-btn"
           onClick={resetFilters}
         >
@@ -558,6 +590,7 @@ export default function Offerings({
         {/* REFRESH BUTTON */}
 
         <button
+          type="button"
           className="finance-secondary-btn"
           onClick={loadData}
           disabled={loading}
@@ -725,6 +758,7 @@ export default function Offerings({
                               {/* VIEW / PRINT PDF */}
 
                               <button
+                                type="button"
                                 className="finance-icon-btn purple"
                                 title="View / Print Receipt"
                                 aria-label="View or print receipt"
@@ -741,6 +775,7 @@ export default function Offerings({
                               {/* DOWNLOAD PDF */}
 
                               <button
+                                type="button"
                                 className="finance-icon-btn gold"
                                 title="Download PDF"
                                 aria-label="Download receipt"
@@ -757,6 +792,7 @@ export default function Offerings({
                               {/* SHARE ACTUAL PDF */}
 
                               <button
+                                type="button"
                                 className="finance-icon-btn green"
                                 title="Share Receipt PDF on WhatsApp"
                                 aria-label="Share receipt PDF on WhatsApp"
@@ -815,7 +851,7 @@ export default function Offerings({
           NEW OFFERING FORM
       ===================================== */}
 
-      {showForm && (
+      {showForm && !shareOffering && (
 
         <OfferingForm
           families={families}
@@ -831,7 +867,7 @@ export default function Offerings({
           OFFERING SUCCESS POPUP
       ===================================== */}
 
-      {savedOffering && (
+      {savedOffering && !shareOffering && (
 
         <div className="offering-modal-overlay">
 
@@ -840,6 +876,7 @@ export default function Offerings({
             {/* CLOSE BUTTON */}
 
             <button
+              type="button"
               className="receipt-success-close"
               onClick={() => setSavedOffering(null)}
               aria-label="Close"
@@ -926,6 +963,7 @@ export default function Offerings({
                 {/* VIEW / PRINT */}
 
                 <button
+                  type="button"
                   className="finance-primary-btn"
                   onClick={() =>
                     handleView(savedOffering)
@@ -942,6 +980,7 @@ export default function Offerings({
                 {/* DOWNLOAD PDF */}
 
                 <button
+                  type="button"
                   className="finance-secondary-btn"
                   onClick={() =>
                     handleDownload(savedOffering)
@@ -958,6 +997,7 @@ export default function Offerings({
                 {/* WHATSAPP PDF SHARE */}
 
                 <button
+                  type="button"
                   className="finance-whatsapp-btn"
                   onClick={() =>
                     handleShare(savedOffering)
@@ -978,6 +1018,7 @@ export default function Offerings({
             {/* ADD ANOTHER OFFERING */}
 
             <button
+              type="button"
               className="finance-secondary-btn"
               onClick={() => {
 
@@ -1003,14 +1044,18 @@ export default function Offerings({
 
       {/* =====================================
           WHATSAPP PDF SHARING MODAL
+          USING REACT PORTAL
       ===================================== */}
 
-      {shareOffering && (
+      {shareOffering && createPortal(
 
         <ReceiptShareModal
+          key={shareOffering.id}
           offering={shareOffering}
-          onClose={() => setShareOffering(null)}
-        />
+          onClose={handleCloseShare}
+        />,
+
+        document.body
 
       )}
 
