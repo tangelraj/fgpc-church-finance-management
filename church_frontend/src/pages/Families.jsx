@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 import {
   Users,
@@ -13,38 +13,65 @@ import {
   RefreshCw,
   MapPin,
   LoaderCircle,
+  QrCode,
+  ClipboardList,
 } from "lucide-react";
 
 import { Link } from "react-router-dom";
 
 import api from "../services/api";
 
+import { useAuth } from "../context/AuthContext";
+
 import FamilyForm from "../components/FamilyForm";
+
+import RegistrationQR from "../components/RegistrationQR";
 
 import "../styles/Families.css";
 
 
 export default function Families() {
 
+  const { user } = useAuth();
+
+  const isAdmin = Boolean(user?.is_superuser);
+
+
+  // ========================================
+  // STATES
+  // ========================================
+
   const [families, setFamilies] = useState([]);
+
   const [search, setSearch] = useState("");
-  const [statusFilter, setStatusFilter] = useState("all");
+
+  const [statusFilter, setStatusFilter] =
+    useState("all");
 
   const [loading, setLoading] = useState(true);
+
   const [error, setError] = useState("");
 
   const [showForm, setShowForm] = useState(false);
+
   const [selectedFamily, setSelectedFamily] =
     useState(null);
+
+  const [showInvitation, setShowInvitation] =
+    useState(false);
+
+  const [pendingCount, setPendingCount] =
+    useState(0);
 
 
   // ========================================
   // FETCH FAMILIES
   // ========================================
 
-  const fetchFamilies = async () => {
+  const fetchFamilies = useCallback(async () => {
 
     setLoading(true);
+
     setError("");
 
     try {
@@ -60,6 +87,7 @@ export default function Families() {
         if (Array.isArray(response.data)) {
 
           records.push(...response.data);
+
           next = null;
 
         } else {
@@ -86,14 +114,88 @@ export default function Families() {
 
     }
 
-  };
+  }, []);
 
+
+  // ========================================
+  // FETCH PENDING REGISTRATION COUNT
+  // ========================================
+
+  const fetchPendingCount = useCallback(async () => {
+
+    if (!isAdmin) {
+
+      setPendingCount(0);
+
+      return;
+
+    }
+
+    try {
+
+      const response = await api.get(
+        "family-registrations/summary/"
+      );
+
+      setPendingCount(
+        Number(response.data.pending) || 0
+      );
+
+    } catch (err) {
+
+      console.error(
+        "Unable to fetch registration count.",
+        err
+      );
+
+    }
+
+  }, [isAdmin]);
+
+
+  // ========================================
+  // INITIAL DATA LOADING
+  // ========================================
 
   useEffect(() => {
 
     fetchFamilies();
 
-  }, []);
+  }, [fetchFamilies]);
+
+
+  // ========================================
+  // AUTOMATIC REGISTRATION COUNT REFRESH
+  // ========================================
+
+  useEffect(() => {
+
+    fetchPendingCount();
+
+    if (!isAdmin) return;
+
+    const interval = setInterval(
+      fetchPendingCount,
+      30000
+    );
+
+    return () => clearInterval(interval);
+
+  }, [isAdmin, fetchPendingCount]);
+
+
+  // ========================================
+  // MANUAL REFRESH
+  // ========================================
+
+  const handleRefresh = async () => {
+
+    await Promise.all([
+      fetchFamilies(),
+      fetchPendingCount(),
+    ]);
+
+  };
 
 
   // ========================================
@@ -108,10 +210,18 @@ export default function Families() {
       const matchesSearch = [
 
         family.family_id,
+
         family.family_head,
+
         family.mobile_number,
+
         family.whatsapp_number,
+
         family.email,
+
+        ...(family.members || []).map(
+          (member) => member.full_name
+        ),
 
       ].some((value) =>
         String(value || "")
@@ -139,6 +249,10 @@ export default function Families() {
   );
 
 
+  // ========================================
+  // FAMILY STATISTICS
+  // ========================================
+
   const activeFamilies = families.filter(
     (family) => family.is_active
   ).length;
@@ -149,44 +263,71 @@ export default function Families() {
 
 
   // ========================================
-  // ADD / EDIT FAMILY
+  // ADD FAMILY
   // ========================================
 
   const openAddForm = () => {
 
     setSelectedFamily(null);
+
     setShowForm(true);
-
-  };
-
-
-  const openEditForm = (family) => {
-
-    setSelectedFamily(family);
-    setShowForm(true);
-
-  };
-
-
-  const handleSaved = () => {
-
-    setShowForm(false);
-    setSelectedFamily(null);
-    fetchFamilies();
 
   };
 
 
   // ========================================
-  // WHATSAPP
+  // EDIT FAMILY
+  // ========================================
+
+  const openEditForm = (family) => {
+
+    setSelectedFamily(family);
+
+    setShowForm(true);
+
+  };
+
+
+  // ========================================
+  // CLOSE FAMILY FORM
+  // ========================================
+
+  const closeFamilyForm = () => {
+
+    setShowForm(false);
+
+    setSelectedFamily(null);
+
+  };
+
+
+  // ========================================
+  // AFTER FAMILY SAVED
+  // ========================================
+
+  const handleSaved = () => {
+
+    setShowForm(false);
+
+    setSelectedFamily(null);
+
+    handleRefresh();
+
+  };
+
+
+  // ========================================
+  // WHATSAPP CONTACT
   // ========================================
 
   const openWhatsApp = (family) => {
 
     let number = String(
+
       family.whatsapp_number ||
       family.mobile_number ||
       ""
+
     ).replace(/\D/g, "");
 
     if (number.length === 10) {
@@ -197,7 +338,10 @@ export default function Families() {
 
     if (!/^[1-9]\d{7,14}$/.test(number)) {
 
-      alert("Valid WhatsApp number is not available.");
+      alert(
+        "Valid WhatsApp number is not available."
+      );
+
       return;
 
     }
@@ -211,11 +355,17 @@ export default function Families() {
   };
 
 
+  // ========================================
+  // MAIN PAGE
+  // ========================================
+
   return (
 
     <div className="families-page">
 
-      {/* PAGE HEADING */}
+      {/* ===================================
+          PAGE HEADING
+      =================================== */}
 
       <div className="family-page-heading">
 
@@ -229,28 +379,89 @@ export default function Families() {
 
         </div>
 
-        <button
-          className="family-primary-btn"
-          onClick={openAddForm}
-        >
 
-          <Plus size={20} />
+        <div className="family-heading-actions">
 
-          Add Family
+          {/* REGISTRATION REQUESTS */}
 
-        </button>
+          {isAdmin && (
+
+            <Link
+              to="/families/registrations"
+              className="family-registration-btn"
+            >
+
+              <ClipboardList size={19} />
+
+              Registration Requests
+
+              {pendingCount > 0 && (
+
+                <span className="family-pending-count">
+
+                  {pendingCount}
+
+                </span>
+
+              )}
+
+            </Link>
+
+          )}
+
+
+          {/* INVITE FAMILY */}
+
+          {isAdmin && (
+
+            <button
+              type="button"
+              className="family-invite-btn"
+              onClick={() => setShowInvitation(true)}
+            >
+
+              <QrCode size={20} />
+
+              Invite Family
+
+            </button>
+
+          )}
+
+
+          {/* ADD FAMILY */}
+
+          <button
+            type="button"
+            className="family-primary-btn"
+            onClick={openAddForm}
+          >
+
+            <Plus size={20} />
+
+            Add Family
+
+          </button>
+
+        </div>
 
       </div>
 
 
-      {/* SUMMARY CARDS */}
+      {/* ===================================
+          SUMMARY CARDS
+      =================================== */}
 
       <div className="family-stats-grid">
+
+        {/* TOTAL FAMILIES */}
 
         <div className="family-stat-card">
 
           <div className="family-stat-icon purple">
+
             <Users size={25} />
+
           </div>
 
           <div>
@@ -258,7 +469,9 @@ export default function Families() {
             <p>Total Families</p>
 
             <h2>
+
               {loading ? "..." : families.length}
+
             </h2>
 
           </div>
@@ -266,10 +479,14 @@ export default function Families() {
         </div>
 
 
+        {/* ACTIVE FAMILIES */}
+
         <div className="family-stat-card">
 
           <div className="family-stat-icon green">
+
             <UserCheck size={25} />
+
           </div>
 
           <div>
@@ -277,7 +494,9 @@ export default function Families() {
             <p>Active Families</p>
 
             <h2>
+
               {loading ? "..." : activeFamilies}
+
             </h2>
 
           </div>
@@ -285,10 +504,14 @@ export default function Families() {
         </div>
 
 
+        {/* INACTIVE FAMILIES */}
+
         <div className="family-stat-card">
 
           <div className="family-stat-icon gold">
+
             <UserMinus size={25} />
+
           </div>
 
           <div>
@@ -296,7 +519,9 @@ export default function Families() {
             <p>Inactive Families</p>
 
             <h2>
+
               {loading ? "..." : inactiveFamilies}
+
             </h2>
 
           </div>
@@ -306,7 +531,9 @@ export default function Families() {
       </div>
 
 
-      {/* SEARCH */}
+      {/* ===================================
+          SEARCH AND FILTER TOOLBAR
+      =================================== */}
 
       <div className="family-toolbar">
 
@@ -315,47 +542,83 @@ export default function Families() {
           <Search size={20} />
 
           <input
+            type="search"
             placeholder="Search family name, ID, mobile..."
             value={search}
             onChange={(event) =>
               setSearch(event.target.value)
             }
+            aria-label="Search families"
           />
 
         </div>
+
+
+        {/* STATUS FILTER */}
 
         <select
           value={statusFilter}
           onChange={(event) =>
             setStatusFilter(event.target.value)
           }
+          aria-label="Filter families by status"
         >
 
-          <option value="all">All Families</option>
-          <option value="active">Active Families</option>
-          <option value="inactive">Inactive Families</option>
+          <option value="all">
+
+            All Families
+
+          </option>
+
+          <option value="active">
+
+            Active Families
+
+          </option>
+
+          <option value="inactive">
+
+            Inactive Families
+
+          </option>
 
         </select>
 
+
+        {/* REFRESH BUTTON */}
+
         <button
+          type="button"
           className="family-secondary-btn"
-          onClick={fetchFamilies}
+          onClick={handleRefresh}
           disabled={loading}
           aria-label="Refresh families"
         >
 
-          <RefreshCw size={18} />
+          <RefreshCw
+            size={18}
+            className={
+              loading ? "family-spinner" : ""
+            }
+          />
 
-          Refresh
+          {loading ? "Refreshing..." : "Refresh"}
 
         </button>
 
       </div>
 
 
+      {/* ===================================
+          ERROR MESSAGE
+      =================================== */}
+
       {error && (
 
-        <div className="family-error">
+        <div
+          className="family-error"
+          role="alert"
+        >
 
           {error}
 
@@ -364,7 +627,9 @@ export default function Families() {
       )}
 
 
-      {/* FAMILY CARDS */}
+      {/* ===================================
+          FAMILY CARDS
+      =================================== */}
 
       {loading ? (
 
@@ -375,7 +640,11 @@ export default function Families() {
             className="family-spinner"
           />
 
-          <p>Loading church families...</p>
+          <p>
+
+            Loading church families...
+
+          </p>
 
         </div>
 
@@ -385,10 +654,16 @@ export default function Families() {
 
           <Users size={48} />
 
-          <h3>No families found</h3>
+          <h3>
+
+            No families found
+
+          </h3>
 
           <p>
+
             Add a family or change your search.
+
           </p>
 
         </div>
@@ -404,6 +679,8 @@ export default function Families() {
               key={family.id}
             >
 
+              {/* FAMILY PHOTO AND STATUS */}
+
               <div className="family-card-top">
 
                 <div className="family-avatar">
@@ -413,6 +690,7 @@ export default function Families() {
                     <img
                       src={family.photo}
                       alt={family.family_head}
+                      loading="lazy"
                     />
 
                   ) : (
@@ -422,6 +700,7 @@ export default function Families() {
                   )}
 
                 </div>
+
 
                 <span
                   className={`family-status ${
@@ -440,14 +719,26 @@ export default function Families() {
               </div>
 
 
+              {/* FAMILY NAME AND ID */}
+
               <div className="family-card-name">
 
-                <span>{family.family_id}</span>
+                <span>
 
-                <h3>{family.family_head}</h3>
+                  {family.family_id}
+
+                </span>
+
+                <h3>
+
+                  {family.family_head}
+
+                </h3>
 
               </div>
 
+
+              {/* FAMILY INFORMATION */}
 
               <div className="family-card-info">
 
@@ -455,9 +746,11 @@ export default function Families() {
 
                   <Phone size={16} />
 
-                  {family.mobile_number || "Not provided"}
+                  {family.mobile_number ||
+                    "Not provided"}
 
                 </p>
+
 
                 <p>
 
@@ -466,27 +759,35 @@ export default function Families() {
                   {family.total_members ??
                     (
                       Array.isArray(family.members)
+
                         ? family.members.filter(
                             (member) => member.is_active
                           ).length + 1
+
                         : "—"
                     )
                   } Members
 
                 </p>
 
+
                 <p>
 
                   <MapPin size={16} />
 
-                  {family.address || "Address not provided"}
+                  {family.address ||
+                    "Address not provided"}
 
                 </p>
 
               </div>
 
 
+              {/* FAMILY ACTION BUTTONS */}
+
               <div className="family-card-actions">
+
+                {/* VIEW FAMILY */}
 
                 <Link
                   to={`/families/${family.id}`}
@@ -499,7 +800,11 @@ export default function Families() {
 
                 </Link>
 
+
+                {/* EDIT FAMILY */}
+
                 <button
+                  type="button"
                   className="family-action edit"
                   onClick={() => openEditForm(family)}
                 >
@@ -510,10 +815,15 @@ export default function Families() {
 
                 </button>
 
+
+                {/* WHATSAPP */}
+
                 <button
+                  type="button"
                   className="family-action whatsapp"
                   onClick={() => openWhatsApp(family)}
                   aria-label="Contact family on WhatsApp"
+                  title="Contact on WhatsApp"
                 >
 
                   <MessageCircle size={19} />
@@ -531,12 +841,35 @@ export default function Families() {
       )}
 
 
+      {/* ===================================
+          ADD / EDIT FAMILY MODAL
+      =================================== */}
+
       {showForm && (
 
         <FamilyForm
           family={selectedFamily}
-          onClose={() => setShowForm(false)}
+          onClose={closeFamilyForm}
           onSaved={handleSaved}
+        />
+
+      )}
+
+
+      {/* ===================================
+          FAMILY REGISTRATION QR MODAL
+      =================================== */}
+
+      {showInvitation && isAdmin && (
+
+        <RegistrationQR
+          onClose={() => {
+
+            setShowInvitation(false);
+
+            fetchPendingCount();
+
+          }}
         />
 
       )}

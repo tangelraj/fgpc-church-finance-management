@@ -4,7 +4,10 @@
   gap: 25px;
 }
 
-/* PAGE HEADING */
+
+/* ========================================
+   PAGE HEADING
+======================================== */
 
 .family-page-heading {
   display: flex;
@@ -25,10 +28,23 @@
   margin-top: 7px;
 }
 
-/* BUTTONS */
+.family-heading-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+
+/* ========================================
+   BUTTONS
+======================================== */
 
 .family-primary-btn,
-.family-secondary-btn {
+.family-secondary-btn,
+.family-registration-btn,
+.family-invite-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -38,6 +54,7 @@
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
+  text-decoration: none;
   transition: 0.2s ease;
 }
 
@@ -62,12 +79,67 @@
 }
 
 .family-primary-btn:disabled,
-.family-secondary-btn:disabled {
+.family-secondary-btn:disabled,
+.family-invite-btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
 
-/* SUMMARY CARDS */
+
+/* ========================================
+   REGISTRATION REQUESTS BUTTON
+======================================== */
+
+.family-registration-btn {
+  border: 1px solid #d9c8df;
+  background: #ffffff;
+  color: #54265f;
+}
+
+.family-registration-btn:hover {
+  background: #f0e5f4;
+  border-color: #863b86;
+}
+
+
+/* ========================================
+   INVITE FAMILY BUTTON
+======================================== */
+
+.family-invite-btn {
+  background: #863b86;
+  color: #ffffff;
+  border: 1px solid #863b86;
+}
+
+.family-invite-btn:hover {
+  background: #6c2e70;
+}
+
+
+/* ========================================
+   PENDING REGISTRATION COUNT
+======================================== */
+
+.family-pending-count {
+  min-width: 23px;
+  height: 23px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #b83232;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 20px;
+  padding: 3px 6px;
+  box-sizing: border-box;
+}
+
+
+/* ========================================
+   SUMMARY CARDS
+======================================== */
 
 .family-stats-grid {
   display: grid;
@@ -122,7 +194,10 @@
   overflow-wrap: anywhere;
 }
 
-/* SEARCH TOOLBAR */
+
+/* ========================================
+   SEARCH TOOLBAR
+======================================== */
 
 .family-toolbar {
   display: flex;
@@ -172,7 +247,10 @@
   outline: none;
 }
 
-/* FAMILY CARDS */
+
+/* ========================================
+   FAMILY CARDS
+======================================== */
 
 .family-card-grid {
   display: grid;
@@ -218,6 +296,11 @@
   object-fit: cover;
 }
 
+
+/* ========================================
+   FAMILY STATUS
+======================================== */
+
 .family-status {
   display: inline-block;
   padding: 6px 10px;
@@ -236,6 +319,11 @@
   background: #f2eef3;
   color: #807187;
 }
+
+
+/* ========================================
+   FAMILY NAME AND INFORMATION
+======================================== */
 
 .family-card-name {
   margin: 20px 0;
@@ -277,6 +365,11 @@
   margin-top: 2px;
 }
 
+
+/* ========================================
+   FAMILY CARD ACTIONS
+======================================== */
+
 .family-card-actions {
   display: flex;
   flex-wrap: wrap;
@@ -297,6 +390,7 @@
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .family-action.view {
@@ -315,7 +409,10 @@
   margin-left: auto;
 }
 
-/* MODAL */
+
+/* ========================================
+   ADD / EDIT FAMILY MODAL
+======================================== */
 
 .family-modal-overlay {
   position: fixed;
@@ -367,11 +464,17 @@
   display: grid;
   place-items: center;
   border-radius: 8px;
+  cursor: pointer;
 }
 
 .family-modal-body {
   padding: 28px;
 }
+
+
+/* ========================================
+   FAMILY FORM
+======================================== */
 
 .family-form-grid {
   display: grid;
@@ -403,6 +506,7 @@
   color: #43204f;
   outline: none;
   font-size: 14px;
+  box-sizing: border-box;
 }
 
 .family-field input:focus,
@@ -420,6 +524,11 @@
   grid-column: 1 / -1;
 }
 
+
+/* ========================================
+   PHOTO UPLOAD
+======================================== */
+
 .photo-upload {
   display: flex;
   align-items: center;
@@ -431,6 +540,11 @@
   min-width: 0;
   font-size: 12px;
 }
+
+
+/* ========================================
+   CHECKBOX
+======================================== */
 
 .family-checkbox {
   display: flex;
@@ -446,15 +560,24 @@
   accent-color: #863b86;
 }
 
+
+/* ========================================
+   MODAL FOOTER
+======================================== */
+
 .family-modal-footer {
   display: flex;
   justify-content: flex-end;
+  flex-wrap: wrap;
   gap: 12px;
   padding: 20px 28px;
   border-top: 1px solid #ece5ef;
 }
 
-/* FAMILY PROFILE */
+
+/* ========================================
+   FAMILY PROFILE
+======================================== */
 
 .family-back-link {
   display: flex;
@@ -463,6 +586,7 @@
   color: #863b86;
   font-weight: 600;
   font-size: 14px;
+  text-decoration: none;
 }
 
 .family-profile {
@@ -527,6 +651,7 @@
   color: #ffffff;
   border-radius: 8px;
   padding: 11px 15px;
+  cursor: pointer;
 }
 
 .family-profile-info {
@@ -552,7 +677,10 @@
   color: #e5bf75;
 }
 
-/* MEMBER AND OFFERING TABLES */
+
+/* ========================================
+   MEMBER AND OFFERING PANELS
+======================================== */
 
 .family-panel {
   padding: 25px;
@@ -581,6 +709,11 @@
   font-size: 13px;
   margin-top: 6px;
 }
+
+
+/* ========================================
+   FAMILY TABLE
+======================================== */
 
 .family-table-wrapper {
   width: 100%;
@@ -617,6 +750,11 @@
   border-bottom: none;
 }
 
+
+/* ========================================
+   FAMILY MEMBER DETAILS
+======================================== */
+
 .member-name {
   display: flex;
   align-items: center;
@@ -649,7 +787,10 @@
   color: #918398 !important;
 }
 
-/* LOADING AND ERRORS */
+
+/* ========================================
+   EMPTY STATE
+======================================== */
 
 .family-empty {
   min-height: 300px;
@@ -671,6 +812,11 @@
   font-size: 14px;
 }
 
+
+/* ========================================
+   ERROR MESSAGE
+======================================== */
+
 .family-error {
   padding: 14px;
   background: #fff1f1;
@@ -682,17 +828,27 @@
   overflow-wrap: anywhere;
 }
 
+
+/* ========================================
+   LOADING ANIMATION
+======================================== */
+
 .family-spinner {
   animation: family-spin 1s linear infinite;
 }
 
 @keyframes family-spin {
+
   to {
     transform: rotate(360deg);
   }
+
 }
 
-/* RESPONSIVE */
+
+/* ========================================
+   RESPONSIVE - DESKTOP / LAPTOP
+======================================== */
 
 @media (max-width: 1250px) {
 
@@ -707,6 +863,24 @@
 
   .family-stat-card h2 {
     font-size: 22px;
+  }
+
+}
+
+
+/* ========================================
+   RESPONSIVE - TABLET
+======================================== */
+
+@media (max-width: 768px) {
+
+  .family-page-heading {
+    flex-wrap: wrap;
+  }
+
+  .family-heading-actions {
+    width: 100%;
+    justify-content: flex-start;
   }
 
 }
@@ -727,7 +901,37 @@
 
 }
 
+
+/* ========================================
+   RESPONSIVE - MOBILE HEADER BUTTONS
+======================================== */
+
+@media (max-width: 600px) {
+
+  .family-heading-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .family-heading-actions .family-registration-btn,
+  .family-heading-actions .family-invite-btn,
+  .family-heading-actions .family-primary-btn {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+}
+
+
+/* ========================================
+   RESPONSIVE - MOBILE
+======================================== */
+
 @media (max-width: 550px) {
+
+  .families-page {
+    gap: 18px;
+  }
 
   .family-card-grid {
     grid-template-columns: 1fr;
@@ -764,8 +968,26 @@
     padding: 17px;
   }
 
+  .family-toolbar {
+    padding: 14px;
+  }
+
+  .family-search {
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+
   .family-toolbar select {
     flex: 1;
+    min-width: 0;
+  }
+
+  .family-card {
+    padding: 18px;
+  }
+
+  .family-modal-header h2 {
+    font-size: 20px;
   }
 
 }

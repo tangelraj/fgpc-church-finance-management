@@ -9,6 +9,8 @@ import Dashboard from "./pages/Dashboard";
 
 import Families from "./pages/Families";
 import FamilyDetails from "./pages/FamilyDetails";
+import FamilyRegistration from "./pages/FamilyRegistration";
+import RegistrationRequests from "./pages/RegistrationRequests";
 
 import Offerings from "./pages/Offerings";
 import Receipts from "./pages/Receipts";
@@ -16,16 +18,13 @@ import Receipts from "./pages/Receipts";
 import Expenses from "./pages/Expenses";
 import Vouchers from "./pages/Vouchers";
 
-import ComingSoon from "./pages/ComingSoon";
+import Reports from "./pages/Reports";
+import Settings from "./pages/Settings";
 
 import Layout from "./components/Layout";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 import { useAuth } from "./context/AuthContext";
-
-import Reports from "./pages/Reports";
-
-import Settings from "./pages/Settings";
 
 
 export default function App() {
@@ -36,48 +35,52 @@ export default function App() {
   } = useAuth();
 
 
-  if (loading) {
-
-    return (
-
-      <div
-        style={{
-          minHeight: "100vh",
-          display: "grid",
-          placeItems: "center",
-          color: "#54265f",
-          fontWeight: 600,
-        }}
-      >
-
-        Loading FGPC Church Finance...
-
-      </div>
-
-    );
-
-  }
-
-
   return (
 
     <Routes>
 
+      {/* ===================================
+          PUBLIC FAMILY REGISTRATION
+          NO LOGIN REQUIRED
+      =================================== */}
+
+      <Route
+        path="/register-family"
+        element={<FamilyRegistration />}
+      />
+
+
+      {/* ===================================
+          LOGIN PAGE
+      =================================== */}
+
       <Route
         path="/login"
         element={
-          isAuthenticated
-            ? <Navigate to="/" replace />
-            : <Login />
+          loading ? (
+            <LoadingScreen />
+          ) : isAuthenticated ? (
+            <Navigate to="/" replace />
+          ) : (
+            <Login />
+          )
         }
       />
 
 
+      {/* ===================================
+          PROTECTED ADMIN PAGES
+      =================================== */}
+
       <Route
         element={
-          <ProtectedRoute>
-            <Layout />
-          </ProtectedRoute>
+          loading ? (
+            <LoadingScreen />
+          ) : (
+            <ProtectedRoute>
+              <Layout />
+            </ProtectedRoute>
+          )
         }
       >
 
@@ -89,6 +92,10 @@ export default function App() {
         <Route
           path="families"
           element={<Families />}
+        />
+        <Route
+          path="families/registrations"
+          element={<RegistrationRequests />}
         />
 
         <Route
@@ -117,26 +124,55 @@ export default function App() {
         />
 
         <Route
-            path="reports"
-            element={<Reports />}
+          path="reports"
+          element={<Reports />}
         />
 
         <Route
-            path="settings"
-            element={<Settings />}
+          path="settings"
+          element={<Settings />}
         />
 
       </Route>
 
+
+      {/* ===================================
+          UNKNOWN PAGE REDIRECT
+      =================================== */}
 
       <Route
         path="*"
         element={<Navigate to="/" replace />}
       />
 
-      
-
     </Routes>
+
+  );
+
+}
+
+
+// ==========================================
+// LOADING SCREEN
+// ==========================================
+
+function LoadingScreen() {
+
+  return (
+
+    <div
+      style={{
+        minHeight: "100vh",
+        display: "grid",
+        placeItems: "center",
+        color: "#54265f",
+        fontWeight: 600,
+      }}
+    >
+
+      Loading FGPC Church Finance...
+
+    </div>
 
   );
 

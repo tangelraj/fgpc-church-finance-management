@@ -31,11 +31,19 @@ DEBUG = (
 )
 
 
+# ==========================================
+# ALLOWED HOSTS
+# ==========================================
+
 ALLOWED_HOSTS = [
     host.strip()
     for host in os.environ.get(
         "ALLOWED_HOSTS",
-        "localhost,127.0.0.1"
+        (
+            "localhost,127.0.0.1,192.168.1.33"
+            if DEBUG
+            else ""
+        ),
     ).split(",")
     if host.strip()
 ]
@@ -286,7 +294,6 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 
 MEDIA_URL = "/media/"
 
-
 MEDIA_ROOT = Path(
 
     os.environ.get(
@@ -399,8 +406,11 @@ CORS_ALLOWED_ORIGINS = [
 
         (
             "http://localhost:5173,"
-            "http://127.0.0.1:5173"
+            "http://127.0.0.1:5173,"
+            "http://192.168.1.33:5173"
+
             if DEBUG
+
             else ""
         )
 
@@ -425,8 +435,11 @@ CSRF_TRUSTED_ORIGINS = [
 
         (
             "http://localhost:5173,"
-            "http://127.0.0.1:5173"
+            "http://127.0.0.1:5173,"
+            "http://192.168.1.33:5173"
+
             if DEBUG
+
             else ""
         )
 
@@ -450,6 +463,26 @@ if RENDER_EXTERNAL_HOSTNAME:
         CSRF_TRUSTED_ORIGINS.append(
             render_origin
         )
+
+
+# ==========================================
+# FAMILY REGISTRATION FRONTEND URL
+# ==========================================
+
+FRONTEND_URL = os.environ.get(
+
+    "FRONTEND_URL",
+
+    "http://192.168.1.33:5173" if DEBUG else "",
+
+).rstrip("/")
+
+
+if not DEBUG and not FRONTEND_URL.startswith("https://"):
+
+    raise RuntimeError(
+        "A valid HTTPS FRONTEND_URL is required in production."
+    )
 
 
 # ==========================================
@@ -534,3 +567,13 @@ if not DEBUG:
     SESSION_COOKIE_SECURE = True
 
     CSRF_COOKIE_SECURE = True
+
+else:
+
+    # Local development and mobile testing
+
+    SECURE_SSL_REDIRECT = False
+
+    SESSION_COOKIE_SECURE = False
+
+    CSRF_COOKIE_SECURE = False
