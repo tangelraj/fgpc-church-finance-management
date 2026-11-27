@@ -5,6 +5,7 @@ Church Finance Management System.
 
 from pathlib import Path
 import os
+import dj_database_url
 
 from dotenv import load_dotenv
 
@@ -24,7 +25,6 @@ load_dotenv(BASE_DIR / ".env")
 
 SECRET_KEY = os.environ["SECRET_KEY"]
 
-
 DEBUG = (
     os.environ.get("DEBUG", "False").lower()
     == "true"
@@ -39,6 +39,21 @@ ALLOWED_HOSTS = [
     ).split(",")
     if host.strip()
 ]
+
+
+# Automatically allow Render hostname
+
+RENDER_EXTERNAL_HOSTNAME = os.environ.get(
+    "RENDER_EXTERNAL_HOSTNAME"
+)
+
+if RENDER_EXTERNAL_HOSTNAME:
+
+    if RENDER_EXTERNAL_HOSTNAME not in ALLOWED_HOSTS:
+
+        ALLOWED_HOSTS.append(
+            RENDER_EXTERNAL_HOSTNAME
+        )
 
 
 # ==========================================
@@ -56,14 +71,12 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 
-
     # Third-party applications
 
     "rest_framework",
     "rest_framework.authtoken",
     "corsheaders",
     "django_filters",
-
 
     # Church finance applications
 
@@ -90,6 +103,8 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
 
     "corsheaders.middleware.CorsMiddleware",
+
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 
     "django.contrib.sessions.middleware.SessionMiddleware",
 
@@ -151,20 +166,53 @@ WSGI_APPLICATION = "config.wsgi.application"
 
 
 # ==========================================
-# DATABASE
+# DATABASE CONFIGURATION
 # ==========================================
 
-DATABASES = {
+DATABASE_URL = os.environ.get("DATABASE_URL")
 
-    "default": {
 
-        "ENGINE": "django.db.backends.sqlite3",
+if DATABASE_URL:
 
-        "NAME": BASE_DIR / "db.sqlite3",
+    # PostgreSQL - Render production database
+
+    DATABASES = {
+
+        "default": dj_database_url.parse(
+
+            DATABASE_URL,
+
+            conn_max_age=600,
+
+            conn_health_checks=True,
+
+        )
 
     }
 
-}
+else:
+
+    # Prevent accidental SQLite usage in production
+
+    if not DEBUG:
+
+        raise RuntimeError(
+            "DATABASE_URL is required in production."
+        )
+
+    # SQLite - Local development
+
+    DATABASES = {
+
+        "default": {
+
+            "ENGINE": "django.db.backends.sqlite3",
+
+            "NAME": BASE_DIR / "db.sqlite3",
+
+        }
+
+    }
 
 
 # ==========================================
@@ -187,7 +235,9 @@ AUTH_PASSWORD_VALIDATORS = [
         ),
 
         "OPTIONS": {
+
             "min_length": 12,
+
         },
     },
 
@@ -236,14 +286,68 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 
 MEDIA_URL = "/media/"
 
-MEDIA_ROOT = BASE_DIR / "media"
+
+MEDIA_ROOT = Path(
+
+    os.environ.get(
+
+        "MEDIA_ROOT",
+
+        str(BASE_DIR / "media"),
+
+    )
+
+)
+
+
+# ==========================================
+# FILE STORAGE CONFIGURATION
+# ==========================================
+
+STORAGES = {
+
+    "default": {
+
+        "BACKEND": (
+            "django.core.files.storage.FileSystemStorage"
+        ),
+
+    },
+
+    "staticfiles": {
+
+        "BACKEND": (
+
+            "django.contrib.staticfiles.storage.StaticFilesStorage"
+
+            if DEBUG
+
+            else
+
+            "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+        ),
+
+    },
+
+}
 
 
 # ==========================================
 # DATABASE BACKUP
 # ==========================================
 
-BACKUP_ROOT = BASE_DIR / "database_backups"
+BACKUP_ROOT = Path(
+
+    os.environ.get(
+
+        "BACKUP_ROOT",
+
+        str(BASE_DIR / "database_backups"),
+
+    )
+
+)
 
 
 # ==========================================
@@ -262,7 +366,15 @@ MAILERS = {
     "default": {
 
         "BACKEND": (
+
             "django.core.mail.backends.console.EmailBackend"
+
+            if DEBUG
+
+            else
+
+            "django.core.mail.backends.dummy.EmailBackend"
+
         ),
 
     },
@@ -285,8 +397,12 @@ CORS_ALLOWED_ORIGINS = [
 
         "CORS_ALLOWED_ORIGINS",
 
-        "http://localhost:5173,"
-        "http://127.0.0.1:5173"
+        (
+            "http://localhost:5173,"
+            "http://127.0.0.1:5173"
+            if DEBUG
+            else ""
+        )
 
     ).split(",")
 
@@ -307,14 +423,33 @@ CSRF_TRUSTED_ORIGINS = [
 
         "CSRF_TRUSTED_ORIGINS",
 
-        "http://localhost:5173,"
-        "http://127.0.0.1:5173"
+        (
+            "http://localhost:5173,"
+            "http://127.0.0.1:5173"
+            if DEBUG
+            else ""
+        )
 
     ).split(",")
 
     if origin.strip()
 
 ]
+
+
+# Automatically trust Render HTTPS origin
+
+if RENDER_EXTERNAL_HOSTNAME:
+
+    render_origin = (
+        f"https://{RENDER_EXTERNAL_HOSTNAME}"
+    )
+
+    if render_origin not in CSRF_TRUSTED_ORIGINS:
+
+        CSRF_TRUSTED_ORIGINS.append(
+            render_origin
+        )
 
 
 # ==========================================
@@ -331,13 +466,11 @@ REST_FRAMEWORK = {
 
     ],
 
-
     "DEFAULT_PERMISSION_CLASSES": [
 
         "rest_framework.permissions.IsAuthenticated",
 
     ],
-
 
     "DEFAULT_FILTER_BACKENDS": [
 
@@ -385,6 +518,16 @@ SECURE_REFERRER_POLICY = "same-origin"
 # ==========================================
 
 if not DEBUG:
+
+    # Render HTTPS proxy configuration
+
+    SECURE_PROXY_SSL_HEADER = (
+
+        "HTTP_X_FORWARDED_PROTO",
+
+        "https",
+
+    )
 
     SECURE_SSL_REDIRECT = True
 
