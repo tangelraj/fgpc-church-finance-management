@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 
 import OfferingForm from "../components/OfferingForm";
+import ReceiptShareModal from "../components/ReceiptShareModal";
 
 import {
   currency,
@@ -22,7 +23,6 @@ import {
   fetchAll,
   viewReceipt,
   downloadReceipt,
-  shareReceipt,
   errorMessage,
 } from "../services/finance";
 
@@ -54,6 +54,9 @@ export default function Offerings({
   const [showForm, setShowForm] = useState(false);
 
   const [savedOffering, setSavedOffering] =
+    useState(null);
+
+  const [shareOffering, setShareOffering] =
     useState(null);
 
   const [loading, setLoading] = useState(true);
@@ -168,12 +171,20 @@ export default function Offerings({
   );
 
 
+  // ========================================
+  // COMPLETED OFFERINGS
+  // ========================================
+
   const completedOfferings =
     filteredOfferings.filter(
       (offering) =>
         offering.status === "completed"
     );
 
+
+  // ========================================
+  // TOTAL INCOME
+  // ========================================
 
   const totalIncome = completedOfferings.reduce(
 
@@ -188,7 +199,7 @@ export default function Offerings({
 
 
   // ========================================
-  // RECEIPT ACTIONS
+  // VIEW / PRINT RECEIPT
   // ========================================
 
   const handleView = async (offering) => {
@@ -210,6 +221,10 @@ export default function Offerings({
   };
 
 
+  // ========================================
+  // DOWNLOAD RECEIPT
+  // ========================================
+
   const handleDownload = async (offering) => {
 
     try {
@@ -225,6 +240,31 @@ export default function Offerings({
   };
 
 
+  // ========================================
+  // SHARE PDF VIA WHATSAPP
+  // ========================================
+
+  const handleShare = (offering) => {
+
+    if (offering.status !== "completed") {
+
+      alert(
+        "Only completed receipts can be shared."
+      );
+
+      return;
+
+    }
+
+    setShareOffering(offering);
+
+  };
+
+
+  // ========================================
+  // OFFERING SAVED
+  // ========================================
+
   const handleSaved = (offering) => {
 
     setShowForm(false);
@@ -235,6 +275,10 @@ export default function Offerings({
 
   };
 
+
+  // ========================================
+  // RESET FILTERS
+  // ========================================
 
   const resetFilters = () => {
 
@@ -255,7 +299,9 @@ export default function Offerings({
 
     <div className="finance-page">
 
-      {/* PAGE HEADER */}
+      {/* =====================================
+          PAGE HEADER
+      ===================================== */}
 
       <div className="finance-page-heading">
 
@@ -279,6 +325,7 @@ export default function Offerings({
 
         </div>
 
+
         {!receiptsOnly && (
 
           <button
@@ -298,9 +345,13 @@ export default function Offerings({
       </div>
 
 
-      {/* SUMMARY CARDS */}
+      {/* =====================================
+          SUMMARY CARDS
+      ===================================== */}
 
       <div className="finance-stats-grid">
+
+        {/* COMPLETED INCOME */}
 
         <div className="finance-stat-card">
 
@@ -311,13 +362,19 @@ export default function Offerings({
             <p>Completed Income</p>
 
             <h2>
-              {loading ? "..." : currency(totalIncome)}
+
+              {loading
+                ? "..."
+                : currency(totalIncome)}
+
             </h2>
 
           </div>
 
         </div>
 
+
+        {/* COMPLETED RECEIPTS */}
 
         <div className="finance-stat-card">
 
@@ -328,15 +385,19 @@ export default function Offerings({
             <p>Completed Receipts</p>
 
             <h2>
+
               {loading
                 ? "..."
                 : completedOfferings.length}
+
             </h2>
 
           </div>
 
         </div>
 
+
+        {/* MATCHING RECORDS */}
 
         <div className="finance-stat-card">
 
@@ -347,9 +408,11 @@ export default function Offerings({
             <p>Matching Records</p>
 
             <h2>
+
               {loading
                 ? "..."
                 : filteredOfferings.length}
+
             </h2>
 
           </div>
@@ -359,9 +422,13 @@ export default function Offerings({
       </div>
 
 
-      {/* SEARCH AND FILTER */}
+      {/* =====================================
+          SEARCH AND FILTER
+      ===================================== */}
 
       <div className="finance-toolbar">
+
+        {/* SEARCH */}
 
         <div className="finance-search">
 
@@ -378,6 +445,8 @@ export default function Offerings({
         </div>
 
 
+        {/* PAYMENT FILTER */}
+
         <select
           value={paymentFilter}
           onChange={(event) =>
@@ -385,18 +454,30 @@ export default function Offerings({
           }
         >
 
-          <option value="all">All Payments</option>
-          <option value="cash">Cash</option>
-          <option value="upi">UPI</option>
+          <option value="all">
+            All Payments
+          </option>
+
+          <option value="cash">
+            Cash
+          </option>
+
+          <option value="upi">
+            UPI
+          </option>
 
           <option value="bank_transfer">
             Bank Transfer
           </option>
 
-          <option value="cheque">Cheque</option>
+          <option value="cheque">
+            Cheque
+          </option>
 
         </select>
 
+
+        {/* STATUS FILTER */}
 
         {!receiptsOnly && (
 
@@ -407,15 +488,28 @@ export default function Offerings({
             }
           >
 
-            <option value="all">All Status</option>
-            <option value="completed">Completed</option>
-            <option value="draft">Draft</option>
-            <option value="cancelled">Cancelled</option>
+            <option value="all">
+              All Status
+            </option>
+
+            <option value="completed">
+              Completed
+            </option>
+
+            <option value="draft">
+              Draft
+            </option>
+
+            <option value="cancelled">
+              Cancelled
+            </option>
 
           </select>
 
         )}
 
+
+        {/* START DATE */}
 
         <label className="finance-date-field">
 
@@ -432,6 +526,8 @@ export default function Offerings({
         </label>
 
 
+        {/* END DATE */}
+
         <label className="finance-date-field">
 
           To
@@ -447,6 +543,8 @@ export default function Offerings({
         </label>
 
 
+        {/* RESET BUTTON */}
+
         <button
           className="finance-secondary-btn"
           onClick={resetFilters}
@@ -456,6 +554,8 @@ export default function Offerings({
 
         </button>
 
+
+        {/* REFRESH BUTTON */}
 
         <button
           className="finance-secondary-btn"
@@ -471,6 +571,10 @@ export default function Offerings({
       </div>
 
 
+      {/* =====================================
+          ERROR MESSAGE
+      ===================================== */}
+
       {error && (
 
         <div className="finance-error">
@@ -482,7 +586,9 @@ export default function Offerings({
       )}
 
 
-      {/* OFFERING TABLE */}
+      {/* =====================================
+          OFFERING / RECEIPT HISTORY
+      ===================================== */}
 
       <div className="finance-panel">
 
@@ -501,7 +607,9 @@ export default function Offerings({
 
             <LoaderCircle size={35} />
 
-            <p>Loading financial records...</p>
+            <p>
+              Loading financial records...
+            </p>
 
           </div>
 
@@ -516,16 +624,23 @@ export default function Offerings({
                 <tr>
 
                   <th>Receipt Number</th>
+
                   <th>Donor / Family</th>
+
                   <th>Date</th>
+
                   <th>Payment</th>
+
                   <th>Amount</th>
+
                   <th>Status</th>
+
                   <th>Actions</th>
 
                 </tr>
 
               </thead>
+
 
               <tbody>
 
@@ -534,11 +649,16 @@ export default function Offerings({
 
                     <tr key={offering.id}>
 
+                      {/* RECEIPT NUMBER */}
+
                       <td className="finance-record-number">
 
                         {offering.receipt_number}
 
                       </td>
+
+
+                      {/* DONOR NAME */}
 
                       <td>
 
@@ -546,11 +666,17 @@ export default function Offerings({
 
                       </td>
 
+
+                      {/* DATE */}
+
                       <td>
 
                         {formatDate(offering.date)}
 
                       </td>
+
+
+                      {/* PAYMENT METHOD */}
 
                       <td className="finance-capitalize">
 
@@ -560,11 +686,17 @@ export default function Offerings({
 
                       </td>
 
+
+                      {/* TOTAL AMOUNT */}
+
                       <td className="finance-income">
 
                         {currency(offering.total_amount)}
 
                       </td>
+
+
+                      {/* STATUS */}
 
                       <td>
 
@@ -580,12 +712,17 @@ export default function Offerings({
 
                       </td>
 
+
+                      {/* RECEIPT ACTIONS */}
+
                       <td>
 
                         {offering.status === "completed"
                           ? (
 
                             <div className="finance-actions">
+
+                              {/* VIEW / PRINT PDF */}
 
                               <button
                                 className="finance-icon-btn purple"
@@ -601,6 +738,8 @@ export default function Offerings({
                               </button>
 
 
+                              {/* DOWNLOAD PDF */}
+
                               <button
                                 className="finance-icon-btn gold"
                                 title="Download PDF"
@@ -615,12 +754,14 @@ export default function Offerings({
                               </button>
 
 
+                              {/* SHARE ACTUAL PDF */}
+
                               <button
                                 className="finance-icon-btn green"
-                                title="Share on WhatsApp"
-                                aria-label="Share receipt information"
+                                title="Share Receipt PDF on WhatsApp"
+                                aria-label="Share receipt PDF on WhatsApp"
                                 onClick={() =>
-                                  shareReceipt(offering)
+                                  handleShare(offering)
                                 }
                               >
 
@@ -639,6 +780,8 @@ export default function Offerings({
                   )
                 )}
 
+
+                {/* EMPTY RECORDS */}
 
                 {filteredOfferings.length === 0 && (
 
@@ -668,7 +811,9 @@ export default function Offerings({
       </div>
 
 
-      {/* NEW OFFERING FORM */}
+      {/* =====================================
+          NEW OFFERING FORM
+      ===================================== */}
 
       {showForm && (
 
@@ -682,13 +827,17 @@ export default function Offerings({
       )}
 
 
-      {/* SUCCESS MESSAGE */}
+      {/* =====================================
+          OFFERING SUCCESS POPUP
+      ===================================== */}
 
       {savedOffering && (
 
         <div className="offering-modal-overlay">
 
           <div className="receipt-success-modal">
+
+            {/* CLOSE BUTTON */}
 
             <button
               className="receipt-success-close"
@@ -701,23 +850,34 @@ export default function Offerings({
             </button>
 
 
+            {/* SUCCESS ICON */}
+
             <CheckCircle2
               size={65}
               color="#198754"
             />
 
-            <h2>Offering Saved Successfully!</h2>
+
+            <h2>
+              Offering Saved Successfully!
+            </h2>
 
             <p>
 
-              Your cash receipt has been generated.
+              {savedOffering.status === "completed"
+                ? "Your cash receipt has been generated."
+                : "Your offering has been saved."}
 
             </p>
 
 
+            {/* RECEIPT DETAILS */}
+
             <div className="receipt-success-details">
 
-              <span>Receipt Number</span>
+              <span>
+                Receipt Number
+              </span>
 
               <strong>
 
@@ -725,7 +885,10 @@ export default function Offerings({
 
               </strong>
 
-              <span>Received From</span>
+
+              <span>
+                Received From
+              </span>
 
               <strong>
 
@@ -733,13 +896,17 @@ export default function Offerings({
 
               </strong>
 
-              <span>Total Amount</span>
+
+              <span>
+                Total Amount
+              </span>
 
               <h1>
 
                 {currency(savedOffering.total_amount)}
 
               </h1>
+
 
               <p>
 
@@ -750,51 +917,65 @@ export default function Offerings({
             </div>
 
 
-            <div className="receipt-success-actions">
+            {/* RECEIPT SUCCESS ACTIONS */}
 
-              <button
-                className="finance-primary-btn"
-                onClick={() =>
-                  handleView(savedOffering)
-                }
-              >
+            {savedOffering.status === "completed" && (
 
-                <Eye size={18} />
+              <div className="receipt-success-actions">
 
-                View / Print
+                {/* VIEW / PRINT */}
 
-              </button>
+                <button
+                  className="finance-primary-btn"
+                  onClick={() =>
+                    handleView(savedOffering)
+                  }
+                >
 
+                  <Eye size={18} />
 
-              <button
-                className="finance-secondary-btn"
-                onClick={() =>
-                  handleDownload(savedOffering)
-                }
-              >
+                  View / Print
 
-                <Download size={18} />
-
-                Download PDF
-
-              </button>
+                </button>
 
 
-              <button
-                className="finance-whatsapp-btn"
-                onClick={() =>
-                  shareReceipt(savedOffering)
-                }
-              >
+                {/* DOWNLOAD PDF */}
 
-                <MessageCircle size={18} />
+                <button
+                  className="finance-secondary-btn"
+                  onClick={() =>
+                    handleDownload(savedOffering)
+                  }
+                >
 
-                WhatsApp
+                  <Download size={18} />
 
-              </button>
+                  Download PDF
 
-            </div>
+                </button>
 
+
+                {/* WHATSAPP PDF SHARE */}
+
+                <button
+                  className="finance-whatsapp-btn"
+                  onClick={() =>
+                    handleShare(savedOffering)
+                  }
+                >
+
+                  <MessageCircle size={18} />
+
+                  Share PDF via WhatsApp
+
+                </button>
+
+              </div>
+
+            )}
+
+
+            {/* ADD ANOTHER OFFERING */}
 
             <button
               className="finance-secondary-btn"
@@ -816,6 +997,20 @@ export default function Offerings({
           </div>
 
         </div>
+
+      )}
+
+
+      {/* =====================================
+          WHATSAPP PDF SHARING MODAL
+      ===================================== */}
+
+      {shareOffering && (
+
+        <ReceiptShareModal
+          offering={shareOffering}
+          onClose={() => setShareOffering(null)}
+        />
 
       )}
 
